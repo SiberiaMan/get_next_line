@@ -17,7 +17,7 @@ size_t		ft_strlen(const char *s)
 	int len;
 
 	len = 0;
-	while(s && *s)
+	while (s && *s)
 	{
 		len++;
 		s++;
@@ -30,8 +30,8 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	char	*ptr;
 	char	*bptr;
 
-	if(!(ptr = (char*)malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
-		return(0);
+	if (!(ptr = (char*)malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
+		return (0);
 	bptr = ptr;
 	while (s1 && *s1)
 	{
@@ -49,14 +49,12 @@ char		*ft_strjoin(char const *s1, char const *s2)
 	return (bptr);
 }
 
-char 		*ft_strdup(const char *s1)
+char		*ft_strdup(const char *s1)
 {
-	size_t len;
 	char *ptr;
 	char *bptr;
 
-	len = ft_strlen(s1);
-	if (!(ptr = (char *) malloc(len + 1)))
+	if (!(ptr = (char *)malloc(ft_strlen(s1) + 1)))
 		return (0);
 	bptr = ptr;
 	while (*s1)
@@ -67,6 +65,4 @@ char 		*ft_strdup(const char *s1)
 	}
 	*ptr = *s1;
 	return (bptr);
-}
-
 }
