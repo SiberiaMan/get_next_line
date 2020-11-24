@@ -6,11 +6,11 @@
 /*   By: dchani <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 20:21:49 by dchani            #+#    #+#             */
-/*   Updated: 2020/11/24 20:45:39 by dchani           ###   ########.fr       */
+/*   Updated: 2020/11/24 20:42:51 by dchani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static	char		*q_pop(char **queue)
 {

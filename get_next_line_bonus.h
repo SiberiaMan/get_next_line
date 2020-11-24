@@ -6,12 +6,12 @@
 /*   By: dchani <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 20:14:33 by dchani            #+#    #+#             */
-/*   Updated: 2020/11/24 21:33:53 by dchani           ###   ########.fr       */
+/*   Updated: 2020/11/24 21:34:01 by dchani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # define FD_MAX	1024
 
