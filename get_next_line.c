@@ -107,5 +107,5 @@ int					get_next_line(int fd, char **line)
 			return (-1);
 		return (0);
 	}
-	return (1);
+	return (correct > 0 ? 1 : -1);
 }
