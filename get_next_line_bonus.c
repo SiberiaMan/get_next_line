@@ -21,10 +21,11 @@ static	char		*q_pop(char **queue)
 	i = 0;
 	while (queue && (*queue)[i] != '\n')
 		i++;
-	if ((*queue)[i + 1])
-		ptr = ft_strdup(&((*queue)[i + 1]));
+	if ((*queue)[i + 1] && (!(ptr = ft_strdup(&((*queue)[i + 1])))))
+		return (0);
+	else if (!(*queue)[i + 1] && (!(ptr = ft_strdup(""))))
+		return (0);
 	free(*queue);
-	*queue = 0;
 	return (ptr);
 }
 
@@ -37,9 +38,11 @@ static	int			line_assign(char **queue, char **line)
 		if ((*queue)[i++] == '\0')
 			return (0);
 	(*queue)[i] = '\0';
-	*line = ft_strdup(*queue);
+	if (!(*line = ft_strdup(*queue)))
+		return (-1);
 	(*queue)[i] = '\n';
-	*queue = q_pop(queue);
+	if (!(*queue = q_pop(queue)))
+		return (-1);
 	return (1);
 }
 
@@ -47,45 +50,61 @@ static	int			q_push(char **buffer, char **queue, int fd, char **line)
 {
 	int		cnt;
 	char	*tmp;
+	int		correct;
 
-	cnt = 0;
 	while ((cnt = read(fd, *buffer, BUFFER_SIZE)))
 	{
 		(*buffer)[cnt] = '\0';
 		tmp = *queue;
-		*queue = ft_strjoin(*queue, *buffer);
-		free(tmp);
-		if (line_assign(queue, line))
+		if (!(*queue = ft_strjoin(*queue, *buffer)))
+		{
+			cnt = -1;
 			break ;
+		}
+		free(tmp);
+		correct = line_assign(queue, line);
+		if (correct == 1)
+			break ;
+		else if (correct == -1)
+		{
+			cnt = -1;
+			break ;
+		}
 	}
 	free(*buffer);
-	*buffer = 0;
 	return (cnt);
+}
+
+static int			eof_case(char **queue_arr, char **line)
+{
+	if (!(*line = ft_strdup(*queue_arr)))
+		return (-1);
+	free(*queue_arr);
+	*queue_arr = 0;
+	return (0);
 }
 
 int					get_next_line(int fd, char **line)
 {
 	static char		*queue_arr[FD_MAX];
 	char			*buffer;
+	int				correct;
 
 	if (BUFFER_SIZE <= 0 || !line || read(fd, 0, 0) == -1
-	|| (!(buffer = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1))))
+		|| (!(buffer = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1))))
 		return (-1);
-	if (queue_arr[fd] && line_assign(&queue_arr[fd], line))
+	if (queue_arr[fd] && (correct = line_assign(&queue_arr[fd], line)))
 	{
 		free(buffer);
-		return (1);
+		return (correct);
 	}
-	if (!q_push(&buffer, &queue_arr[fd], fd, line))
+	correct = q_push(&buffer, &queue_arr[fd], fd, line);
+	if (!correct)
 	{
 		if (queue_arr[fd])
-		{
-			*line = ft_strdup(queue_arr[fd]);
-			free(queue_arr[fd]);
-			queue_arr[fd] = 0;
-		}
-		else
-			*line = ft_strdup("");
+			return (eof_case(&queue_arr[fd], line));
+		else if (!(*line = ft_strdup("")))
+			return (-1);
 		return (0);
 	}
 	return (1);
